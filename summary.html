@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Order Summary</title>
+    </head>
+
+    <body>
+        <h2>Order Summary</h2>
+
+        <p id="name"></p>
+        <p id="product"></p>
+        <p id="quantity"></p>
+        <p id="total"></p>
+        <p id="pickup"></p>
+        <p id="address"></p>
+
+        <h3>Thank you for your order!</h3>
+
+        <script>
+            //Gets cookie
+            function getCookie(name) {
+                let cookies = document.cookie.split("; ");
+                for (let c of cookies) {
+                let [key, val] = c.split("=");
+                if (key === name) return val;
+                }
+                return "";
+            }
+
+            //Loads the data
+            let name = getCookie("customername");
+            let variant = localStorage.getItem("variant");
+            let quantity = localStorage.getItem("quantity");
+            let pickup = localStorage.getItem("pickup");
+            let address = localStorage.getItem("address");
+
+            //Splits the product and the price
+            let productname = "";
+            let price = 0;
+
+            if (variant) {
+                let parts = variant.split("|");
+                productname = parts[0];
+                price = parseFloat(parts[1]);
+            }
+
+            //Computes the total
+            let total = price * parseInt(quantity);
+
+            //Displays the final results
+            document.getElementById("name").innerHTML = "Customer Name: " + name;
+            document.getElementById("product").innerHTML = "Product: " + productname;
+            document.getElementById("quantity").innerHTML = "Quantity: " + quantity;
+            document.getElementById("total").innerHTML = "Total Amount: PHP " + total;
+            document.getElementById("pickup").innerHTML = "Pickup Method: " + pickup;
+
+            if (pickup === "Delivery") {
+                document.getElementById("address").innerHTML = "Address: " + address;
+            }
+        </script>
+    </body>
+</html>
